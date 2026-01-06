@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Book</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<button class="dark-toggle" onclick="toggleDark()">🌙</button>
+
+<div class="container">
+    <h1>📒 Contact Book</h1>
+
+    <input id="search" placeholder="🔍 Search Contact" onkeyup="searchContact()">
+
+    <form action="/add" method="post" class="card">
+        <input name="name" placeholder="Name" required>
+        <input name="phone" placeholder="Phone" required>
+        <input name="email" placeholder="Email">
+        <button>Add Contact</button>
+    </form>
+
+    <div class="card">
+        <table id="table">
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            {% for c in contacts %}
+            <tr>
+                <td>{{ c.name }}</td>
+                <td>{{ c.phone }}</td>
+                <td>{{ c.email }}</td>
+                <td>
+                    <button onclick="openEdit('{{ c.name }}','{{ c.phone }}','{{ c.email }}')">✏</button>
+                    <a href="/delete/{{ c.name }}" class="del">❌</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="modal">
+    <form action="/edit" method="post">
+        <input type="hidden" name="old_name" id="old">
+        <input name="name" id="mname">
+        <input name="phone" id="mphone">
+        <input name="email" id="memail">
+        <button>Update</button>
+        <button type="button" onclick="closeModal()">Cancel</button>
+    </form>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
